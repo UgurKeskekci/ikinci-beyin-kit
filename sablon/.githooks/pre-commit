@@ -12,8 +12,8 @@ if [ -n "$gizli" ]; then
   exit 1
 fi
 
-pat='(sk-[A-Za-z0-9_-]{16,}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}\.|-----BEGIN [A-Z ]*PRIVATE KEY|(ifre|arola|[Pp]assword|PASSWORD)[[:space:]]*[=:][[:space:]]*[^[:space:]`(<[]{6,})'
-hits=$(git diff --cached -U0 --no-color -- . ':(exclude)gizli/' | grep -E '^\+[^+]' | grep -E "$pat" || true)
+pat='(sk-[A-Za-z0-9_-]{16,}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}\.|-----BEGIN [A-Z ]*PRIVATE KEY|(ifre|arola|[Pp]assword|PASSWORD)[^[:space:]=:]{0,6}[[:space:]]*[=:][[:space:]]*[^[:space:]`(<[]{6,})'
+hits=$(git diff --cached -U0 --no-color -- . ':(exclude)gizli/' ':(exclude).githooks/' | grep -E '^\+[^+]' | grep -E "$pat" || true)
 if [ -n "$hits" ]; then
   echo "⛔ Beyne şifre ya da anahtar benzeri bir değer giriyor, commit durduruldu:"
   echo "$hits" | cut -c1-80 | sed -E 's/(sk-|ghp_|gho_|github_pat_|AKIA|AIza|xox.-|eyJ)[A-Za-z0-9_-]{3,}/\1***/g'
