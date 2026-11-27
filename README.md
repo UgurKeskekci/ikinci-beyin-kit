@@ -124,6 +124,7 @@ projeler/_index.md dosyalarını oku. Neyi, ne zaman, nereye yazacağın AGENTS.
 git clone --depth 1 https://github.com/UgurKeskekci/ikinci-beyin-kit /tmp/ikinci-beyin-kit
 mkdir -p ~/ikinci-beyin
 cp -R /tmp/ikinci-beyin-kit/sablon/. ~/ikinci-beyin/
+rm -rf /tmp/ikinci-beyin-kit
 cd ~/ikinci-beyin
 git init -b main
 git config core.hooksPath .githooks

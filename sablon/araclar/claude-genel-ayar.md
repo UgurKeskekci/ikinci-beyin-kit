@@ -33,7 +33,8 @@ Kalıcı hafızam `~/ikinci-beyin` klasöründe. Hangi klasörde çalışırsan 
 ## 2. Oturum başında tazeleme (iki bilgisayar varsa)
 
 Öbür bilgisayarda yazılanların oturum açılır açılmaz gelmesi için `~/.claude/settings.json`'a bir kanca
-eklenir. Dosyadaki öteki ayarlar korunur, yalnız `hooks.SessionStart` listesine bu öğe girer:
+eklenir. Dosyadaki öteki ayarlar korunur, yalnız `hooks.SessionStart` listesine bu öğe girer (liste yoksa
+oluşturulur, aynı komut zaten varsa eklenmez). Beyin başka bir yerdeyse komuttaki yolu değiştirin:
 
 ```json
 {

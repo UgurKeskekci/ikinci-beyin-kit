@@ -8,6 +8,7 @@ kısa konuş. Bu repo bir şablondur: kullanıcının beyni ayrı bir klasör ve
 - Oturum boş bir klasörde açıldıysa beyin bu klasördür. Değilse kullanıcıya sor; öneri `~/ikinci-beyin`
   (iki bilgisayarda aynı yol olursa genel ayar iki yerde aynı kalır).
 - Klasörde dosya varsa (gizli dosyalar dahil) hiçbir şeyin üzerine yazma, kullanıcıya sor.
+- Beyin `~/ikinci-beyin`'de değilse 3. adımdaki bloğun ve 5. adımdaki kancanın yollarını ona göre düzelt.
 - Bu kiti beyin klasörüne klonlama: kitin geçmişi, README'si ve remote'u beyne girmez. Yalnız `sablon/`
   içeriği kopyalanır.
 
@@ -55,7 +56,8 @@ Nereye yazılır:
   Kullanıcı projenin klasörünü verdiyse önce oranın README'sine, CLAUDE.md'sine ve `git log -10`
   çıktısına bak, kartı oradan doldur, kullanıcıya yalnız eksik kalanı sor.
 - `projeler/ornek-kahve-sitesi.md`'yi ve `_index.md`'deki örnek satırı sil. Şablonlardaki "(ör. ...)"
-  yer tutucularını gerçek bilgiyle değiştir, cevabı olmayanı sil.
+  yer tutucularını gerçek bilgiyle değiştir, cevabı olmayanı sil. Henüz içi boş bölüm başlıkları
+  (ör. "Kararlar") kartta kalır.
 
 Kurallar:
 
@@ -75,11 +77,13 @@ Kullanıcıya sor: beyin GitHub'da gizli bir repoda dursun mu? İkinci bilgisaya
 - `gh` yoksa: kullanıcı github.com/new adresinde **Private** bir repo açar ve adresini verir:
   `git remote add origin <adres>`, sonra `sh araclar/sync.sh`.
 - Repo varsa `araclar/claude-genel-ayar.md`'deki 2. adımı (oturum başında tazeleme kancası) kullanıcıya
-  sorup `~/.claude/settings.json`'a ekle. Dosyadaki öteki ayarları koru.
+  sorup `~/.claude/settings.json`'a ekle. Önce dosyayı oku: aynı komut zaten varsa ekleme;
+  `hooks.SessionStart` listesi varsa öğeyi ona ekle, yoksa oluştur. Öteki ayarlara dokunma, dosya geçerli
+  JSON kalsın. Kancadaki yol beyin klasörünü göstersin.
 - İkinci bilgisayar için `araclar/claude-genel-ayar.md`'deki 3. adımı kullanıcıya kısaca anlat.
 
 ## 6. Bitir
 
 Kısa özet ver: beyin nerede, hangi dosyalar dolduruldu, GitHub reposu var mı. Sonra şunu söyle:
 "Yeni bir oturum açıp 'Beni tanıyor musun?' diye sorun. Projelerinizi ve kurallarınızı sayıyorsa kurulum
-tamam."
+tamam. Claude ilk oturumda beyin dosyalarını eklemek için izin sorarsa izin verin."
