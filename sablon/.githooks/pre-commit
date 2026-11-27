@@ -1,0 +1,23 @@
+#!/bin/sh
+# İkinci beyin: sır sızıntısı koruması. İki durumda commit'i durdurur:
+#   1) gizli/ altındaki bir dosya (README dışında) commit'e giriyorsa
+#   2) eklenen satırlarda şifre ya da anahtar benzeri bir değer varsa
+# Değeri gizli/ altına taşıyın, kartta yalnız yerini yazın. Kancayı atlamayın (--no-verify yok).
+
+gizli=$(git diff --cached --name-only --diff-filter=ACMR | grep '^gizli/' | grep -v '^gizli/README\.md$' || true)
+if [ -n "$gizli" ]; then
+  echo "⛔ gizli/ altındaki dosya commit'e giriyor, durduruldu:"
+  echo "$gizli" | sed 's/^/   /'
+  echo "gizli/ yalnız bu bilgisayarda kalır. Commit'ten çıkarmak için: git rm --cached <dosya>"
+  exit 1
+fi
+
+pat='(sk-[A-Za-z0-9_-]{16,}|ghp_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}\.|-----BEGIN [A-Z ]*PRIVATE KEY|(ifre|arola|[Pp]assword|PASSWORD)[[:space:]]*[=:][[:space:]]*[^[:space:]`(<[]{6,})'
+hits=$(git diff --cached -U0 --no-color -- . ':(exclude)gizli/' | grep -E '^\+[^+]' | grep -E "$pat" || true)
+if [ -n "$hits" ]; then
+  echo "⛔ Beyne şifre ya da anahtar benzeri bir değer giriyor, commit durduruldu:"
+  echo "$hits" | cut -c1-80 | sed -E 's/(sk-|ghp_|gho_|github_pat_|AKIA|AIza|xox.-|eyJ)[A-Za-z0-9_-]{3,}/\1***/g'
+  echo "Değeri gizli/ altına taşıyın, burada 'anahtar: gizli/<dosya>.md' diye yerini gösterin."
+  exit 1
+fi
+exit 0

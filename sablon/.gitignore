@@ -1,0 +1,14 @@
+# Gizli bilgi bu bilgisayardan çıkmaz: gizli/ git'e girmez (yalnız README'si girer)
+gizli/*
+!gizli/README.md
+
+# Sırlar hiçbir yerde git'e girmez
+.env
+.env.*
+*.pem
+*.key
+*.p8
+
+# Sistem
+.DS_Store
+Thumbs.db
